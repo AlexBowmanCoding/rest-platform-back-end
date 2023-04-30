@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"main/app"
+	"github.com/AlexBowmanCoding/content-hub-back-end/app"
 
 	
 )

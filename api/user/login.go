@@ -3,12 +3,11 @@ package user
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"go.mongodb.org/mongo-driver/mongo"
-	"main/mongoDB"
+	"github.com/AlexBowmanCoding/content-hub-back-end/mongoDB"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -48,21 +47,18 @@ func CheckHashedPassword(storedPassword string, enteredPassword string) (bool, e
 	return true, err
 	
 }
-
-func ReadJsonDB() (*[]User, error) {
-	var users []User
-	var user User
-	usersBytes, err := ioutil.ReadFile("users.json")
+func CheckUserLoginInfo(userinDB User, userInJSON User) (int, error){
+	passwordbool, err := CheckHashedPassword(userinDB.Password, userInJSON.Password)
+	
 	if err != nil {
-		return nil, err
+		return http.StatusInternalServerError, err
 	}
-	log.Print(usersBytes)
-	err = json.Unmarshal(usersBytes, &user)
-	if err != nil{
-		return nil, err
-	}
-	users = append(users, user)
-	return &users, nil
+		
+	if userinDB.Username == userInJSON.Username && passwordbool {
+		return http.StatusOK, nil
+	} 
+	
+	return http.StatusBadRequest, errors.New("incorrect username or password")
 }
 
 func (user Mongo) NewUser(w http.ResponseWriter, r *http.Request) {
@@ -89,11 +85,7 @@ func (user Mongo) NewUser(w http.ResponseWriter, r *http.Request) {
 	}
 	newUser.Password = password
 
-
 	userCollection := user.Client.Database("ContentHub").Collection("Users")
-
-	
-
 
 	err = user.DB.Post(*userCollection, newUser)
 	if err != nil{
@@ -104,7 +96,7 @@ func (user Mongo) NewUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(newUser)
 }
 
-func LoginUser(w http.ResponseWriter, r *http.Request) {
+func (user Mongo) LoginUser(w http.ResponseWriter, r *http.Request) {
 	var userInJSON User
 
 	vars := mux.Vars(r)
@@ -119,10 +111,9 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 		return
 	}
-
-	//TEMP DB
-	users, err := ReadJsonDB()
-	if err != nil {
+	userCollection := user.Client.Database("ContentHub").Collection("Users")
+	result, err := user.DB.Get(*userCollection, userId)
+	if err != nil{
 		w.WriteHeader(http.StatusInternalServerError)
 		response:= BodyResponse{
 			Err: err.Error(),
@@ -131,44 +122,34 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, user := range *users {
-		
-		if user.ID == userId {
-			passwordbool, err := CheckHashedPassword(user.Password, userInJSON.Password)
-			if err != nil {
-				response:= BodyResponse{
-					Err: err.Error(),
-				}
-				w.WriteHeader(http.StatusInternalServerError)
-				json.NewEncoder(w).Encode(response)
-				return
-			}
-			
-			if user.Username == userInJSON.Username && passwordbool {
-				w.WriteHeader(http.StatusOK)
-				return
-			} else {
-				err = errors.New("incorrect username or password")
-				w.WriteHeader(http.StatusBadRequest)
-				response:= BodyResponse{
-					Err: err.Error(),
-				}
-				json.NewEncoder(w).Encode(response)
-				return
-			}
-		}
-	}
+	var userInDB User 
 
-	err = errors.New("user not found")
-	w.WriteHeader(http.StatusNotFound)
+	userInDB.ID = result.ID
+	userInDB.Password = result.Password
+	userInDB.Username = result.Username
+
+	if userInDB.ID == "" {
+		err = errors.New("user not found")
+		w.WriteHeader(http.StatusNotFound)
+		response:= BodyResponse{
+			Err: err.Error(),
+		}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+	
+	status, err := CheckUserLoginInfo(userInDB, userInJSON)
+	w.WriteHeader(status)
 	response:= BodyResponse{
-		Err: err.Error(),
+		OtherData: userInDB,
+	}
+	if err != nil{
+		response.Err = err.Error()
 	}
 	json.NewEncoder(w).Encode(response)
-	
 }
 
-func DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (user Mongo) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	err := errors.New("delete user not implemented yet")
 	w.WriteHeader(http.StatusInternalServerError)
 	response:= BodyResponse{

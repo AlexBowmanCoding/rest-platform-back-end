@@ -1,9 +1,8 @@
 package app
 
 import (
-	"main/mongoDB"
-	"main/user"
-
+	"github.com/AlexBowmanCoding/content-hub-back-end/mongoDB"
+	"github.com/AlexBowmanCoding/content-hub-back-end/user"
 	"github.com/gorilla/mux"
 )
 
@@ -23,7 +22,7 @@ func (app *App) Initialize() {
 
 
 	app.Router.HandleFunc("/users", app.UserMethods.NewUser).Methods("POST")
-	app.Router.HandleFunc("/users/login/{id}", user.LoginUser).Methods("POST")
-	app.Router.HandleFunc("/users/login/{id}", user.DeleteUser).Methods("DELETE")
+	app.Router.HandleFunc("/users/login/{id}", app.UserMethods.LoginUser).Methods("GET")
+	app.Router.HandleFunc("/users/{id}", app.UserMethods.DeleteUser).Methods("DELETE")
 	
 }

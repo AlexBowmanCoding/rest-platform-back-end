@@ -1,4 +1,4 @@
-module main
+module github.com/AlexBowmanCoding/content-hub-back-end
 
 go 1.20
 

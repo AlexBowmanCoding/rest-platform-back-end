@@ -3,7 +3,7 @@ package mongodb
 import (
 	"context"
 	"log"
-
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -11,6 +11,12 @@ import (
 type MongoDB struct {
 	Client *mongo.Client
 	URI    string
+}
+
+type User struct {
+	ID       string `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func NewMongoDB() MongoDB {
@@ -34,8 +40,14 @@ func NewMongoDB() MongoDB {
 	}
 }
 
-func (db MongoDB) Get() {
-
+func (db MongoDB) Get(c mongo.Collection, id string) (User, error) {
+	filter := bson.D{{"id", id}}
+	var result User
+	err := c.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil{
+		return result, err
+	}
+	return result, nil
 }
 
 func (db MongoDB) Post(c mongo.Collection, item interface{}) error {
