@@ -58,10 +58,28 @@ func (db MongoDB) Post(c mongo.Collection, item interface{}) error {
 	return nil
 }
 
-func (db MongoDB) Update() {
+func (db MongoDB) Update(c mongo.Collection, user User) error {
+	filter := bson.D{{"id", user.ID}}
 
+	update := bson.D{
+		{"$set", bson.D{
+			{"username", user.Username},
+			{"password", user.Password},
+			},
+		},
+	}
+	_, err := c.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (db MongoDB) Delete() {
 
+func (db MongoDB) Delete(c mongo.Collection, id string) error{
+	_, err := c.DeleteOne(context.TODO(),bson.D{{"id", id}} )
+	if err != nil{
+		return err
+	}
+	return nil
 }

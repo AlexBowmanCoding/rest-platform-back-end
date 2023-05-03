@@ -23,6 +23,7 @@ func (app *App) Initialize() {
 
 	app.Router.HandleFunc("/users", app.UserMethods.NewUser).Methods("POST")
 	app.Router.HandleFunc("/users/login/{id}", app.UserMethods.LoginUser).Methods("GET")
+	app.Router.HandleFunc("/users/{id}", app.UserMethods.UpdateUser).Methods("PUT")
 	app.Router.HandleFunc("/users/{id}", app.UserMethods.DeleteUser).Methods("DELETE")
 	
 }
