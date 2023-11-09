@@ -29,5 +29,5 @@ func (app *App) Initialize() {
 	app.Router.HandleFunc("/users/login/{id}", app.User.LoginUser).Methods("GET")
 	app.Router.HandleFunc("/users/{id}", app.User.UpdateUser).Methods("PUT")
 	app.Router.HandleFunc("/users/{id}", app.User.DeleteUser).Methods("DELETE")
-
+	app.Router.HandleFunc("/users/{id}", app.User.GetUser).Methods("GET")
 }

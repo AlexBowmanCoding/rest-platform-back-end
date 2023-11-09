@@ -1,0 +1,21 @@
+-11/08/2023 11:18pm
+I am writing this document as a way to document my process and put my thoughts and decisions in writing. 
+So currently I am done with the user login api and still need to write the readme and write testing for 
+everything so far. I'm about 50/50 on if most professionals write tests for their own code but, given my 
+experience it just would feel right not writing any tests. I've also taken the liberty of creating a to do 
+list. On it I've got everything I need to finish the user api along with other features I'd like to add.
+Currently I'm planning on implementing a to do list feature, Weather api integration, User MFA authentication, 
+and File storage. I haven't detailed this yet but I'm making the rest platform as both a demonstration and 
+evolution of my skills as a back end developer. I'm also having trouble figuring out how to produce a live 
+demo of the project to show off to recruiters and friends for an easy quick look at what the project can do.
+Before I wrap up here I'd like to talk about what decisions I've made so far making this project. 
+So originally I wanted to make Content hub, a place to centralize your media consumption with customizable 
+feeds and other features. While I still believe the idea is sound that project would end up lacking in skills 
+I'd like to show off or learn. The current project while less appealing to the average person is much more 
+flexible with whatever I want to show off or learn. This project has been worked on infrequently up until now 
+and its design was originally flawed in that I tried to make the api routes generic so that they could handle 
+any item passed through them. This ended up not working out well as the types of their output wasnt compatable 
+with what I needed to be so I changed them to just be for the user api. So I just realized that I don't have a 
+Get user route just a login user route. I am going to implement this now before going to bed but I feel returning 
+the password even encrypted is a security issue so I wont do that. It might be worth debating if all 
+functions should do the same.

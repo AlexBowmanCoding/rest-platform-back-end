@@ -242,3 +242,27 @@ func (user MongoUser) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 }
+
+// GetUser Gets user data from the database excluding the password.
+func (user MongoUser) GetUser(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	userId := vars["id"]
+
+
+	//Get user data from the mongo database.
+	userCollection := user.Client.Database("ContentHub").Collection("Users")
+	result, err := user.DB.Get(*userCollection, userId)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := BodyResponse{
+			Err: err.Error(),
+		}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+	result.Password = "Password not included for security reasons."
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(result)
+}
