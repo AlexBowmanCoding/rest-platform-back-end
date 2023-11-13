@@ -19,3 +19,11 @@ with what I needed to be so I changed them to just be for the user api. So I jus
 Get user route just a login user route. I am going to implement this now before going to bed but I feel returning 
 the password even encrypted is a security issue so I wont do that. It might be worth debating if all 
 functions should do the same.
+
+-11/9/2023 12:53
+Testing has been scrapped for now as idealy don't want to hit the database during testing. I'm going to see if a 
+quick workaround is possible if not then testing will be shelved for now. 
+
+-11/13/2023 
+It seems mocking the database is the option I would go with when I get back to testing. Also I want to decouple the NewMongoDB 
+function into its own package to prepare for the to do list implementation.

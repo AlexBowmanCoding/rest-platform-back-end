@@ -8,22 +8,10 @@ import (
 
 	
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 )
 
-// User struct for holding user data. 
-type User struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
 
-// MongoUser struct for holding the mongo client and the mongoDB struct.
-type MongoUser struct {
-	Client *mongo.Client
-	DB    MongoDB
-}
 
 // BodyResponse  struct for holding the json repsonse's body.
 type BodyResponse struct {
@@ -99,7 +87,7 @@ func (user MongoUser) NewUser(w http.ResponseWriter, r *http.Request) {
 	userCollection := user.Client.Database("ContentHub").Collection("Users")
 
 	// Puts the User data in the mongoDB.
-	err = user.DB.Post(*userCollection, newUser)
+	err = user.Post(*userCollection, newUser)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -129,7 +117,7 @@ func (user MongoUser) LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	//Get user data from the mongo database.
 	userCollection := user.Client.Database("ContentHub").Collection("Users")
-	result, err := user.DB.Get(*userCollection, userId)
+	result, err := user.Get(*userCollection, userId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := BodyResponse{
@@ -209,7 +197,7 @@ func (user MongoUser) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	mongoUser.Password = newUser.Password
 
 	//Update user in database.
-	err = user.DB.Update(*userCollection, mongoUser)
+	err = user.Update(*userCollection, mongoUser)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 
@@ -230,7 +218,7 @@ func (user MongoUser) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := vars["id"]
 	userCollection := user.Client.Database("ContentHub").Collection("Users")
 
-	err := user.DB.Delete(*userCollection, userId)
+	err := user.Delete(*userCollection, userId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 
@@ -252,7 +240,7 @@ func (user MongoUser) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	//Get user data from the mongo database.
 	userCollection := user.Client.Database("ContentHub").Collection("Users")
-	result, err := user.DB.Get(*userCollection, userId)
+	result, err := user.Get(*userCollection, userId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := BodyResponse{
