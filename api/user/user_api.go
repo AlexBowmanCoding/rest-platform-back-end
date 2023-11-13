@@ -2,45 +2,26 @@ package user
 
 import (
 	"context"
-	"log"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	m "github.com/AlexBowmanCoding/content-hub-back-end/mongo"
 )
 
-// MongoDB holds all the variables and methods associated with the Database
-type MongoDB struct {
-	Client *mongo.Client
-	URI    string
+// User struct for holding user data. 
+type User struct {
+	ID       string `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
-
-
-// NewMongoDB creates a new MongoDB struct and connects to existing database
-func NewUserDB() MongoDB {
-	clientOptions := options.Client().ApplyURI("mongodb+srv://contenthub.lgtdzvq.mongodb.net/").SetAuth(options.Credential{
-		Username: "Admin",
-		Password: "Admin", //Change When making authentication
-	})
-	newClient, err := mongo.Connect(context.TODO(), clientOptions)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = newClient.Ping(context.TODO(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return MongoDB{
-		Client: newClient,
-		URI:    "mongodb+srv://contenthub.lgtdzvq.mongodb.net/",
-	}
+// MongoUser struct for holding the mongo client and the mongoDB struct.
+type MongoUser struct {
+	Client *mongo.Client
+	DB    m.MongoDB
 }
 
 // Get returns a mongo item from the Database
-func (db MongoDB) Get(c mongo.Collection, id string) (User, error) {
+func (db MongoUser) Get(c mongo.Collection, id string) (User, error) {
 	filter := bson.D{{"id", id}}
 	var result User
 	err := c.FindOne(context.TODO(), filter).Decode(&result)
@@ -51,7 +32,7 @@ func (db MongoDB) Get(c mongo.Collection, id string) (User, error) {
 }
 
 // Post puts an item in the Database
-func (db MongoDB) Post(c mongo.Collection, user User) error {
+func (db MongoUser) Post(c mongo.Collection, user User) error {
 	_, err := c.InsertOne(context.TODO(), user)
 	if err != nil {
 		return err
@@ -60,7 +41,7 @@ func (db MongoDB) Post(c mongo.Collection, user User) error {
 }
 
 // Update Updates an item in the database
-func (db MongoDB) Update(c mongo.Collection, user User) error {
+func (db MongoUser) Update(c mongo.Collection, user User) error {
 	filter := bson.D{{"id", user.ID}}
 
 	update := bson.D{
@@ -77,7 +58,7 @@ func (db MongoDB) Update(c mongo.Collection, user User) error {
 	return nil
 }
 // Delete Deletes an item in the database.
-func (db MongoDB) Delete(c mongo.Collection, id string) error {
+func (db MongoUser) Delete(c mongo.Collection, id string) error {
 	_, err := c.DeleteOne(context.TODO(), bson.D{{"id", id}})
 	if err != nil {
 		return err
