@@ -1,6 +1,6 @@
 # Rest Platform BackEnd
 
-## A Rest API for connecting to various third party API
+## A Rest API for connecting to various third party API and User Authentication
 
 
 | Endpoint                    	| Method 	| JSON Parameters                                            	| Description                          	       |
