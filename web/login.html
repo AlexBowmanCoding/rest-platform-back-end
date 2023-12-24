@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alex Bowman's Rest Platform</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+  <body>
+    <main>
+        <h1>Rest Platform</h1>
+       
+        <form onsubmit="return login()" method="get">
+        
+          
+            <div class="container">
+                <h2> Login </h2>
+              <label for="uname"><b>Username</b></label>
+              <input type="text" placeholder="Enter Username" id="username" required>
+          
+              <label for="psw"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" id="password" required>
+          
+              <button type="submit">Login</button>
+             
+            </div>
+          
+            <div class="container" style="background-color:#f1f1f1">
+              <span class="psw"> <a href="register.html">Register</a></span>
+            </div>
+          </form> 
+
+    </main>
+    <script src="login.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+   
+  </body>
+</html>

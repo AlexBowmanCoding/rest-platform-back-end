@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alex Bowman's Rest Platform</title>
+    <link rel="stylesheet" href="./style.css">
+    <script>
+      window.onload = function() {
+        var jwt = localStorage.getItem("jwt");
+        if (jwt != "true") {
+          window.location.href = './login.html'
+        }
+}
+    </script>
+  </head>
+  <body>
+    <main>
+        <h1>Rest Platform</h1>
+        <div class="container" >
+            <span class="psw"> <a href="weather.html">Your Weather Forecast</a></span>
+          </div>
+        
+    </main>
+  </body>
+</html>
+  

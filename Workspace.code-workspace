@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "api"
+		},
+		{
+			"path": "web"
 		}
 	]
 }
