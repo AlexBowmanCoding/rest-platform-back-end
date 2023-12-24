@@ -27,3 +27,11 @@ quick workaround is possible if not then testing will be shelved for now.
 -11/13/2023 
 It seems mocking the database is the option I would go with when I get back to testing. Also I want to decouple the NewMongoDB 
 function into its own package to prepare for the to do list implementation.
+
+-12/23/2023
+I've decided to use Rest Platform as a multi function api for other projects to use. And Im creating a front end to 
+deploy into the cloud along with running the api in the cloud as well
+
+-12/24/2023
+Basic Front end was added and I'm going to start trying to upload to cloud for hosting 
+and auto upload to an s3 bucket whenever there is a push to main. 

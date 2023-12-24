@@ -19,6 +19,8 @@ type BodyResponse struct {
 	OtherData any    `json:"otherData"`
 }
 
+
+
 // HashPassword encrypts a password before storing it in the database.
 func HashPassword(password string) (string, error) {
 	bytePass := []byte(password)
@@ -58,6 +60,7 @@ func CheckUserLoginInfo(userinDB User, userInJSON User) (int, error) {
 
 // NewUser Creates a new user in the mongoDB and encrypts the password given from the json.
 func (user MongoUser) NewUser(w http.ResponseWriter, r *http.Request) {
+	
 	var newUser User
 	
 	//Grab user data from json.
@@ -93,11 +96,14 @@ func (user MongoUser) NewUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	
+
 	json.NewEncoder(w).Encode(newUser)
 }
 
 // LoginUser checks login data against json user data to authenticate login 
 func (user MongoUser) LoginUser(w http.ResponseWriter, r *http.Request) {
+	
 	var userInJSON User
 
 	vars := mux.Vars(r)
@@ -133,7 +139,7 @@ func (user MongoUser) LoginUser(w http.ResponseWriter, r *http.Request) {
 	userInDB.Password = result.Password
 	userInDB.Username = result.Username
 
-	if userInDB.ID == "" {
+	if userInDB.ID == "" && userInDB.Username == ""{
 		err = errors.New("user not found")
 		w.WriteHeader(http.StatusNotFound)
 		response := BodyResponse{

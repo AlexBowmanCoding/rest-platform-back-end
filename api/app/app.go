@@ -5,6 +5,7 @@ import (
 	"github.com/AlexBowmanCoding/content-hub-back-end/user"
 	"github.com/AlexBowmanCoding/content-hub-back-end/weather"
 	"github.com/gorilla/mux"
+	
 )
 
 type App struct {
@@ -29,11 +30,11 @@ func (app *App) Initialize() {
 		DB:     app.DB,
 		Client: app.DB.Client,
 	}
-
-	app.Router.HandleFunc("/users", app.User.NewUser).Methods("POST")
-	app.Router.HandleFunc("/users/login/{id}", app.User.LoginUser).Methods("GET")
+	
+	app.Router.HandleFunc("/users", app.User.NewUser).Methods("POST", "OPTIONS")
+	app.Router.HandleFunc("/users/login/{id}", app.User.LoginUser).Methods("POST", "OPTIONS")
 	app.Router.HandleFunc("/users/{id}", app.User.UpdateUser).Methods("PUT")
 	app.Router.HandleFunc("/users/{id}", app.User.DeleteUser).Methods("DELETE")
 	app.Router.HandleFunc("/users/{id}", app.User.GetUser).Methods("GET")
-	app.Router.HandleFunc("/weather", app.Weather.GetWeather).Methods("GET")
+	app.Router.HandleFunc("/weather", app.Weather.GetWeather).Methods("POST", "OPTIONS")
 }
