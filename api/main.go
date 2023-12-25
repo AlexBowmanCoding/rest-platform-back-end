@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"github.com/AlexBowmanCoding/content-hub-back-end/app"
+	"github.com/AlexBowmanCoding/rest-platform-back-end/api/app"
 	"github.com/rs/cors"
 	
 )
