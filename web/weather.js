@@ -1,7 +1,3 @@
-var jwt = localStorage.getItem("jwt");
-if (jwt != null) {
-  window.location.href = './index.html'
-}
 
 function getWeather() {
   const zipCode = document.getElementById("zipcode").value;
