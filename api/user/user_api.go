@@ -4,7 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	m "github.com/AlexBowmanCoding/content-hub-back-end/mongo"
+	m "github.com/AlexBowmanCoding/rest-platform-back-end/api/mongo"
 )
 
 // User struct for holding user data. 
