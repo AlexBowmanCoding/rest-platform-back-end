@@ -1,9 +1,9 @@
 package app
 
 import (
-	m "github.com/AlexBowmanCoding/content-hub-back-end/mongo"
-	"github.com/AlexBowmanCoding/content-hub-back-end/user"
-	"github.com/AlexBowmanCoding/content-hub-back-end/weather"
+	m "github.com/AlexBowmanCoding/rest-platform-back-end/api/mongo"
+	"github.com/AlexBowmanCoding/rest-platform-back-end/api/user"
+	"github.com/AlexBowmanCoding/rest-platform-back-end/api/weather"
 	"github.com/gorilla/mux"
 	
 )

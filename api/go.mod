@@ -1,4 +1,4 @@
-module github.com/AlexBowmanCoding/content-hub-back-end
+module github.com/AlexBowmanCoding/rest-platform-back-end
 
 go 1.20
 
