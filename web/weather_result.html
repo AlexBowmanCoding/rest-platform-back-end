@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alex Bowman's Rest Platform</title>
+    <link rel="stylesheet" href="./style.css">
+    <script>
+        window.onload = function() {
+          
+          var temp = localStorage.getItem('temp');
+          var minTemp = localStorage.getItem('minTemp');
+          var maxTemp = localStorage.getItem('maxTemp');
+          var name = localStorage.getItem('name');
+         
+          var tempOutput = document.getElementById('temp');
+          tempOutput.innerText = temp;
+          
+          var minTempOutput = document.getElementById('minTemp');
+          minTempOutput.innerText = minTemp;
+          
+          var maxTempOutput = document.getElementById('maxTemp');
+          maxTempOutput.innerText = maxTemp;
+          
+          var nameOutput = document.getElementById('name');
+          nameOutput.innerText = name;
+        };
+      </script>
+  </head>
+  <body>
+    <main>
+        <h1>Your Weather</h1>
+            <div class="weatherOut">
+                <p>Location:</p>
+                <p id="name"></p>
+            </div>
+            <div class="weatherOut">
+                <p>Temperature:</p>
+                <p id="temp"></p>
+            </div>
+            <div class="weatherOut">
+                <p>Minimum Temperature:</p>
+                <p id="minTemp"></p>
+            </div>
+            <div class="weatherOut">
+                <p>Maximum Temperature:</p>
+                <p id="maxTemp"></p>
+            </div>
+        
+        <div class="container">
+            <span > <a href="weather.html">Back</a></span>
+          </div>
+    </main>
+    <script src="index.js"></script> 
+  </body>
+</html>
+  

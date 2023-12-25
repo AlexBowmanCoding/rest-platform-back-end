@@ -22,7 +22,7 @@ type MongoUser struct {
 
 // Get returns a mongo item from the Database
 func (db MongoUser) Get(c mongo.Collection, id string) (User, error) {
-	filter := bson.D{{"id", id}}
+	filter := bson.D{{"username", id}}
 	var result User
 	err := c.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {

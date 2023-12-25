@@ -1,11 +1,13 @@
 package weather
 
-import(
-	owm "github.com/briandowns/openweathermap"
-	"net/http"
-	"errors"
+import (
 	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
 	"os"
+
+	owm "github.com/briandowns/openweathermap"
 )
 
 type BodyResponse struct {
@@ -18,7 +20,8 @@ type WeatherAPI struct{
 }
 
 type ForecastRequest struct{
-	ZipCode int     `json:"zipCode"`
+	ZipCode string     `json:"zipCode"`
+	Country string     `json:"country"`
 	TempType string `json:"tempType"`
 }
 
@@ -29,14 +32,19 @@ func NewWeatherAPI() WeatherAPI {
 }
 
 func (api WeatherAPI)GetForecastbyZip(r ForecastRequest) ( *owm.CurrentWeatherData, error){
-	w, err := owm.NewCurrent("F","EN", api.apiKey)
+	w, err := owm.NewCurrent(r.TempType,"EN", api.apiKey)
 	if err != nil {
 		
 		return nil, err
 	}
-	err = w.CurrentByZip(r.ZipCode, "US")
+	err = w.CurrentByZipcode(r.ZipCode, r.Country)
+	
+	
 	if err != nil {
-		print("err")
+		tempErr := fmt.Sprint(err)
+		if tempErr == "json: cannot unmarshal string into Go struct field CurrentWeatherData.cod of type int" {
+			err = errors.New("Zipcode is Incorrect")
+		}
 		return w, err
 	}
 	return w, nil
@@ -48,6 +56,7 @@ func (api WeatherAPI)GetWeather(w http.ResponseWriter, r *http.Request){
 	var request ForecastRequest
 
 	err := json.NewDecoder(r.Body).Decode(&request)
+	
 	if err != nil {
 		err = errors.New("invalid body requirements")
 		w.WriteHeader(http.StatusBadRequest)

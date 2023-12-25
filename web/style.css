@@ -1,0 +1,62 @@
+form {
+    border: 3px solid #f1f1f1;
+  }
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  } 
+  
+  button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:hover {
+    opacity: 0.8;
+  }
+  .container {
+    padding: 16px;
+  }  
+  @media screen and (max-width: 300px) {
+    span.psw {
+      display: block;
+      float: none;
+    }
+    
+  }
+  h2{
+    padding-bottom: 10px;
+  }
+  .weatherBtn{
+    background-color: #045cff;
+    color: white;
+    padding: 10px 17px;
+    margin: 12px 0;
+    border: none;
+    cursor: pointer;
+    width: 125px;
+  }
+
+  .weatherIn{
+    width: 125px;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: .5px solid #ccc;
+    box-sizing: border-box;
+  }
+  .country{
+    margin: 8px 5px;
+    padding: 4px 10px;
+  }
+  .weatherOut{
+    border: 3px solid #f1f1f1;
+  }
