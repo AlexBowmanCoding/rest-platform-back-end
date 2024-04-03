@@ -6,5 +6,8 @@
 		{
 			"path": "web"
 		}
-	]
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "web"
+	}
 }

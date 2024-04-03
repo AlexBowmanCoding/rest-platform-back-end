@@ -17,10 +17,12 @@ func main() {
 	app.Initialize()
 
 	//log output
-	log.Print("Now Running Mux Router")
+	log.Print("Now Running Router")
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://127.0.0.1:3000"},
+		AllowedOrigins: []string{"*"},
 		AllowCredentials: true,
+		AllowedMethods: []string{"POST, GET, OPTIONS, PUT, DELETE"},
+		AllowedHeaders: []string{"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"},
 	})
 	handler := c.Handler(app.Router)
 	log.Fatal(http.ListenAndServe(":8001", handler))

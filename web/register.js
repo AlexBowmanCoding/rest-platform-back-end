@@ -8,7 +8,7 @@ function register() {
   const password = document.getElementById("password").value;
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "http://127.0.0.1:8001/users");
+  xhttp.open("POST", "52.90.55.175:8001/users");
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "username": username,

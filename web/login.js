@@ -5,7 +5,7 @@ function login() {
   const password = document.getElementById("password").value;
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "http://127.0.0.1:8001/users/login/" + username);
+  xhttp.open("POST", "52.90.55.175:8001/users/login/admin" + username);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   
   xhttp.send(JSON.stringify({
@@ -15,18 +15,22 @@ function login() {
   }));
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
-      const objects = JSON.parse(this.responseText);
-      console.log(objects);
-      
-      if (objects['err']) {
-        Swal.fire({
+      console.log('Status:', this.status);
+      console.log('Response:', this.responseText);
+  
+      if (this.status == 200 && this.responseText) {
+        const objects = JSON.parse(this.responseText);
+        console.log(objects);
+  
+        if (objects['err']) {
+          Swal.fire({
             text: objects["err"],
             icon: 'error',
             confirmButtonText: 'OK'
           });
-      } else {
-        localStorage.setItem("jwt", "true")
-        Swal.fire({
+        } else {
+          localStorage.setItem("jwt", "true")
+          Swal.fire({
             text: objects['message'],
             icon: 'success',
             confirmButtonText: 'OK'
@@ -35,6 +39,9 @@ function login() {
               window.location.href = './index.html';
             }
           });
+        }
+      } else {
+        console.error('The request did not return a successful response.');
       }
     }
   };

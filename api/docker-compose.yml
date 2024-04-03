@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: rest-platform
+    image: rest-platform
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+    ports:
+      - 8001:8001
+
